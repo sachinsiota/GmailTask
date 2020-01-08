@@ -21,7 +21,6 @@ export class CreateUserComponent implements OnInit {
 
   submit() {
     if (this.createUserForm.valid) {
-      console.log(this.createUserForm);
       this.dataServiceService.createNewUser(this.createUserForm.value);
     }
   }

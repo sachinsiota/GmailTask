@@ -16,9 +16,9 @@ export class ViewMailDialogComponent implements OnInit {
     dialogRef.disableClose = true;
   }
   ngOnInit() {
-    console.log(this.data);
   }
 
+  // close diolog
   onNoClick(): void {
     this.dialogRef.disableClose = false;
     this.dialogRef.close();

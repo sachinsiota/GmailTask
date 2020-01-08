@@ -10,15 +10,14 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   constructor(public dialog: MatDialog,
-    private router: Router) {
-    }
+    private router: Router) { }
 
+  // open compose mail dialog box
   openDialog(): void {
     const dialogRef = this.dialog.open(ComposeDialogComponent, {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 }

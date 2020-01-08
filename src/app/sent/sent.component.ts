@@ -24,6 +24,7 @@ export class SentComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   
+  // view email and data to View component.
   viewMail(data): void {
     const dialogRef = this.dialog.open(ViewMailDialogComponent, {
       data:{

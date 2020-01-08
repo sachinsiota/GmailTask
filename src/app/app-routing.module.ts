@@ -6,7 +6,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
 
 
 const routes: Routes = [
-{ path: '', component: InboxComponent,/*redirectTo: '/home',*/ pathMatch: 'full' },
+{ path: '', component: InboxComponent,/*redirectTo: '/inbox',*/ pathMatch: 'full' },
 { path: 'sentmail', component: SentComponent },
 { path: 'inbox', component: InboxComponent },
 { path: 'createUser', component: CreateUserComponent },

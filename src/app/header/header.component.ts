@@ -10,12 +10,13 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   constructor(public dataServiceService: DataServiceService,
-    private router : Router) { }
+    private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  // switch user from dropdown
+  switchUser(id) {
+    this.dataServiceService.switchUser(id);
+    this.router.navigateByUrl('inbox');
   }
- switchUser(id){
-   this.dataServiceService.switchUser(id);
-   this.router.navigateByUrl('inbox');
- }
 }

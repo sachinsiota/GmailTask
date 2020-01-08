@@ -50,17 +50,13 @@ export class ComposeDialogComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    console.log(event);
     this.recepientsArray.push(event.option.value);
     this.allRecepients.splice(this.allRecepients.indexOf(event.option.value), 1);
     this.unitInput.nativeElement.value = '';
     this.sentForm.get('recepients').setValue(null);
-    console.log(this.allRecepients);
-    console.log(this.recepientsArray);
   }
 
   private _filter(value) {
-    console.log(value);
     if(value){
     const filterValue = value.toLowerCase();
     return this.dataServiceService.users.filter(unit => unit.email.toLowerCase().indexOf(filterValue) === 0);
@@ -69,7 +65,6 @@ export class ComposeDialogComponent implements OnInit {
 
   onFormSubmit() {
     if (this.sentForm.valid) {
-      console.log(this.sentForm);
       this.dataServiceService.sendEmail(this.recepientsArray, this.sentForm.value.subject, this.sentForm.value.content);
       this.dialogRef.disableClose = false;
       this.dialogRef.close();
@@ -93,18 +88,14 @@ export class ComposeDialogComponent implements OnInit {
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
-      console.log('value', value);
-      console.log('input', input);
       if ((value).trim() ) {
         this.dataServiceService.openSnackBar('All recepients added', 3000);
          //this.recepientsArray.push(value.trim());
       }
-
       // Reset the input value
       if (input) {
         input.value = '';
       }
-
     this.sentForm.get('recepients').setValue(null);
     }
   }
