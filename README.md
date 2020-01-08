@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.2.
 
-Run `npm install` to install node_module.
+Run `npm start` to install node_module.
 
 ## Development server
 
