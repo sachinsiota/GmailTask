@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SideNavComponent } from './side-nav.component';
+import { ViewMailDialogComponent } from './view-mail-dialog.component';
 
-describe('SideNavComponent', () => {
-  let component: SideNavComponent;
-  let fixture: ComponentFixture<SideNavComponent>;
+describe('ViewMailDialogComponent', () => {
+  let component: ViewMailDialogComponent;
+  let fixture: ComponentFixture<ViewMailDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SideNavComponent ]
+      declarations: [ ViewMailDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SideNavComponent);
+    fixture = TestBed.createComponent(ViewMailDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

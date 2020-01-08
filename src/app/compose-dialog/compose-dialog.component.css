@@ -22,3 +22,7 @@
 .closeIcon {
     cursor: pointer;
 }
+
+.formfield{
+	width: 100%;
+}

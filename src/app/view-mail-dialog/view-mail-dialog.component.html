@@ -1,0 +1,29 @@
+<mat-card class="emailcard">
+  <div class="header">{{data.mail.subject}}</div>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]='true'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>
+            <h3 class='circle'>{{data.mail.from | uppercase | slice:0:1 }}</h3>
+            {{' '+data.mail.from +' to ' + data.mail.to}}
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="expansioncontent">From: {{data.mail.from | titlecase}}</div>
+      <div class="expansioncontent">To: {{ data.mail.to | titlecase}}</div>
+      <div class="expansioncontent">Email: {{data.mail.email}}</div>
+      <div class="expansioncontent">Subject: {{ data.mail.subject}}</div>
+      <div class="expansioncontent">Date: {{ data.mail.date | date : 'medium'}}</div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-card-content class="content">
+    <p>
+      {{data.mail.content}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button matTooltip="Draft">Draft</button>
+    <button mat-button matTooltip="Close dialog box" (click)="onNoClick()">Close</button>
+  </mat-card-actions>
+</mat-card>

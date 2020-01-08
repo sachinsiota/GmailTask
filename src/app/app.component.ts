@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ComposeDialogComponent } from './compose-dialog/compose-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,18 +9,16 @@ import { ComposeDialogComponent } from './compose-dialog/compose-dialog.componen
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'GmailTask';
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog,
+    private router: Router) {
+    }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ComposeDialogComponent, {
-      //width: '250px',
-      //data: {name: this.name, animal: this.animal}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      //this.animal = result;
     });
   }
 }

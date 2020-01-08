@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit, ViewChild, DoCheck } from '@angular/core';
+import {MatTableDataSource, MatTable} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DataServiceService } from '../data-service.service';
+import { ViewMailDialogComponent } from '../view-mail-dialog/view-mail-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -10,37 +11,38 @@ import { DataServiceService } from '../data-service.service';
   templateUrl: './inbox.component.html',
   styleUrls: ['./inbox.component.css']
 })
-export class InboxComponent implements OnInit {
+export class InboxComponent implements OnInit, DoCheck {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  displayedColumns: string[] = ['select', 'email', 'subject', 'content', 'date'];
-  dataSource = new MatTableDataSource<any>(this.dataServiceService.currentUser.inbox);
-  selection = new SelectionModel<any>(true, []);
+  @ViewChild(MatTable, { static: false }) table: MatTable<any>;
+  displayedColumns: string[] = ['select', 'view', 'email', 'subject', 'content', 'date'];
+  dataSource = new MatTableDataSource<any>(null);
 
-  constructor(public dataServiceService: DataServiceService) { }
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  constructor(public dataServiceService: DataServiceService,
+    public dialog: MatDialog,
+    ) { 
+    this.dataSource.data = [];
+    this.dataSource = new MatTableDataSource<any>(this.dataServiceService.currentUser.inbox?this.dataServiceService.currentUser.inbox:null);
   }
 
   ngOnInit(){
     this.dataSource.paginator = this.paginator;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+  ngDoCheck(){
+    if(this.table){
+      this.table.renderRows();
   }
+}
 
-  /** The label for the checkbox on the passed row */
-  // checkboxLabel(row?: this.dataSource): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.from + 1}`;
-  // }
+viewMail(data): void {
+  const dialogRef = this.dialog.open(ViewMailDialogComponent, {
+    data:{
+       type: 'inbox',
+       mail:  data 
+    }
+  });
+  dialogRef.afterClosed().subscribe(result => {
+  });
+}
 
 }

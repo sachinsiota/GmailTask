@@ -2,34 +2,34 @@
 <div class="wrapper">
   <app-header></app-header>
   <mat-sidenav-container class="sidecontainer">
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav mode="side" opened *ngIf="router.url!='/createUser'">
     <div class="container">
       <div class="row">
         <div class="col text-center">
-          <button class="compose btn btn-primary" (click)="openDialog()">Compose</button>
+          <button class="compose btn btn-primary" (click)="openDialog()" matTooltip="Compose a new mail">Compose</button>
         </div>
       </div>
     </div>
     <mat-nav-list>
-			<a mat-list-item routerLink="/inbox" routerLinkActive="active-list-item">
+			<a mat-list-item routerLink="/inbox" routerLinkActive="active-list-item"  matTooltip="Inbox">
         <h2 matLine>Inbox</h2>
 			</a>
-			<a mat-list-item routerLink="/starred" routerLinkActive="active-list-item">
+			<a mat-list-item routerLink="/starred" routerLinkActive="active-list-item" matTooltip="Starred">
 				<h2 matLine>Starred</h2>
 			</a>
-			<a mat-list-item routerLink="/important" routerLinkActive="active-list-item">
+			<a mat-list-item routerLink="/important" routerLinkActive="active-list-item"  matTooltip="Important">
 				<h2 matLine>Important</h2>
       </a>
-      <a mat-list-item routerLink="/sentmail" routerLinkActive="active-list-item">
+      <a mat-list-item routerLink="/sentmail" routerLinkActive="active-list-item" matTooltip="Sent Items">
 				<h2 matLine>Sent mail</h2>
 			</a>
-			<a mat-list-item routerLink="/drafts" routerLinkActive="active-list-item">
+			<a mat-list-item routerLink="/drafts" routerLinkActive="active-list-item"  matTooltip="Drafts">
 				<h2 matLine>Drafts</h2>
 			</a>
-			<a mat-list-item routerLink="/spam" routerLinkActive="active-list-item">
+			<a mat-list-item routerLink="/spam" routerLinkActive="active-list-item"  matTooltip="Spam">
 				<h2 matLine>Spam</h2>
       </a>
-      <a mat-list-item routerLink="/bin" routerLinkActive="active-list-item">
+      <a mat-list-item routerLink="/bin" routerLinkActive="active-list-item"  matTooltip="Bin">
 				<h2 matLine>Bin</h2>
 			</a>
 		</mat-nav-list>

@@ -7,7 +7,7 @@
                         <h1 class="pt-2">New Message</h1>
                     </div>
                     <div class="col-lg-1 message-box-icon">
-                        <span class="closeIcon" (click)="onNoClick()">
+                        <span class="closeIcon" (click)="onNoClick()" matTooltip="Close">
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </span>
                     </div>
@@ -15,14 +15,14 @@
             </div>
             <div class="col-lg-12 p-0 message-box-input">
                 <form [formGroup]="sentForm">
-                  <mat-form-field class="">
+                  <mat-form-field class="formfield">
   <mat-chip-list #chipList aria-label="Recepients">
     <mat-chip *ngFor="let unit of recepientsArray" [selectable]="selectable" [removable]="removable"
       (removed)="remove(unit)">
       <span>{{unit.email | titlecase}}</span>
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
-    <input placeholder="Select Recepients" #unitInput formControlname="recipients"
+    <input placeholder="Select Recepients" #unitInput formControlname="recepients"
       [matAutocomplete]="auto" [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
       (matChipInputTokenEnd)="add($event)">
@@ -34,15 +34,18 @@
   </mat-autocomplete>
 
 </mat-form-field>
-                      <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="To">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Subject">
-                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
-                      </div>
+
+<mat-form-field class="formfield">
+    <input matInput placeholder="Subject" formControlName="subject">
+  </mat-form-field>
+
+  <mat-form-field class="formfield">
+    <textarea matInput placeholder="Content" formControlName="content"></textarea>
+  </mat-form-field>
                  </form>
             </div>
             <div class="co-lg-12 message-box-last-content p-2">
-                <a href="#" class="btn btn-primary btn-sm pl-3 pr-3">SEND</a>
+                <button href="#" class="btn btn-primary btn-sm pl-3 pr-3" (click)= "onFormSubmit()" matTooltip="Send">SEND</button>
                 <span>
                     <i class="fa fa-paperclip" aria-hidden="true"></i>
                     <i class="fa fa-file" aria-hidden="true"></i>

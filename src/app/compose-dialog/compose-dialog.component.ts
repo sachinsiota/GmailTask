@@ -1,10 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { DataServiceService } from '../data-service.service';
+import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 
 @Component({
@@ -13,7 +15,9 @@ import { DataServiceService } from '../data-service.service';
   styleUrls: ['./compose-dialog.component.css']
 })
 export class ComposeDialogComponent implements OnInit {
-  allRecepients: string[] = ['Unit C202', 'Unit C203', 'Unit C204', 'Unit C205', 'Unit C206'];
+  @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+  @ViewChild('unitInput', {static: false}) unitInput: ElementRef<HTMLInputElement>;
+  allRecepients;
   visible = true;
   selectable = true;
   removable = true;
@@ -29,30 +33,30 @@ export class ComposeDialogComponent implements OnInit {
 
   sentForm: FormGroup;
     filteredRecepients: Observable<any[]>;
-    recepientsArray:[];
+    recepientsArray:string[] = [];
 
   ngOnInit() {
+    this.allRecepients = this.dataServiceService.users.slice();
     this.sentForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      recipients: new FormControl,
+      subject: new FormControl('', [Validators.required]),
+      content: new FormControl('', [Validators.required]),
+      recepients: new FormControl,
     });
-    this.filteredRecepients = this.sentForm.get('recipients').valueChanges.pipe(
+    this.filteredRecepients = this.sentForm.get('recepients').valueChanges.pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : (value ? value.email : null)),
-        map(name => name ? this._filter(name) : this.dataServiceService.users)
+        map(name => name ? this._filter(name) : this.allRecepients)
       )
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     console.log(event);
-    //this.recepientsArray.push(event.option.value);
-    // this.calculateUnitDetails();
-    // this.colonyUnits.splice(this.colonyUnits.indexOf(event.option.value), 1);
-    // console.log(this.units);
-    // console.log(this.colonyUnits);
-    // this.unitInput.nativeElement.value = '';
-    this.sentForm.get('recipients').setValue(null);
+    this.recepientsArray.push(event.option.value);
+    this.allRecepients.splice(this.allRecepients.indexOf(event.option.value), 1);
+    this.unitInput.nativeElement.value = '';
+    this.sentForm.get('recepients').setValue(null);
+    console.log(this.allRecepients);
+    console.log(this.recepientsArray);
   }
 
   private _filter(value) {
@@ -64,14 +68,45 @@ export class ComposeDialogComponent implements OnInit {
 }
 
   onFormSubmit() {
-    if (this.loginForm.valid) {
-      console.log(this.loginForm);
+    if (this.sentForm.valid) {
+      console.log(this.sentForm);
+      this.dataServiceService.sendEmail(this.recepientsArray, this.sentForm.value.subject, this.sentForm.value.content);
+      this.dialogRef.disableClose = false;
+      this.dialogRef.close();
+    }
+  }
+
+  remove(value) {
+    const index = this.recepientsArray.indexOf(value);
+    if (index >= 0) {
+      this.recepientsArray.splice(index, 1);
+      this.allRecepients.push(value);
     }
   }
 
   onNoClick(): void {
     this.dialogRef.disableClose = false;
     this.dialogRef.close();
+  }
+
+  add(event: MatChipInputEvent): void {
+    if (!this.matAutocomplete.isOpen) {
+      const input = event.input;
+      const value = event.value;
+      console.log('value', value);
+      console.log('input', input);
+      if ((value).trim() ) {
+        this.dataServiceService.openSnackBar('All recepients added', 3000);
+         //this.recepientsArray.push(value.trim());
+      }
+
+      // Reset the input value
+      if (input) {
+        input.value = '';
+      }
+
+    this.sentForm.get('recepients').setValue(null);
+    }
   }
 
 }

@@ -2,12 +2,37 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
+export interface Users {
+  id:number,
+  name: string,
+  email: string,
+  password:string,
+  inbox:inbox[],
+  sentItems: sent[]
+}
+
+export interface sent     {
+  to: string,
+  subject: string,
+  content: string,
+  date: Date,
+  from: string,
+  email: string
+}
+export interface inbox{
+  from:string,
+  subject:string,
+  content:string,
+  date: Date,
+  to: string,
+  email: string,
+}
 @Injectable({
   providedIn: 'root'
 })
 export class DataServiceService {
 currentUser: any;
-users = [
+users: Users[] = [
   {
     id: 1,
     name: 'Sachin',
@@ -15,23 +40,44 @@ users = [
     password: 'abc',
     inbox: [
       {
-        from: 'test@gmail.com',
+        from: 'Test',
+        to: 'Sachin',
+        email: 'test@gmail.com',
         subject: 'application',
-        content: 'This is a test email.',
+        content: 'There are many variations of passages of Lorem Ipsum available,'+
+        'but the majority have suffered alteration in some form, by injected humour,'+ 
+        'or randomised words which dont look even slightly believable. If you are'+ 
+        'going to use a passage of Lorem Ipsum, you need to be sure there isnt anything'+ 
+        'embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the'+ 
+        'Internet tend to repeat',
         date: new Date(),
       }
     ],
     sentItems: [
       {
-        to: 'test@gmail.com',
+        to: 'Test',
         subject: 'application',
-        content: 'This is a test email.',
+        from: 'Sachin',
+        email: 'test@gmail.com',
+        content: 'There are many variations of passages of Lorem Ipsum available,'+
+        'but the majority have suffered alteration in some form, by injected humour,'+ 
+        'or randomised words which dont look even slightly believable. If you are'+ 
+        'going to use a passage of Lorem Ipsum, you need to be sure there isnt anything'+ 
+        'embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the'+ 
+        'Internet tend to repeat',
         date: new Date(),
       },
       {
-        to: 'sachin@gmail.com',
+        to: 'Sachin',
         subject: 'application',
-        content: 'This is a test email.',
+        from: 'Sachin',
+        email: 'sachin@gmail.com',
+        content: 'There are many variations of passages of Lorem Ipsum available,'+
+        'but the majority have suffered alteration in some form, by injected humour,'+ 
+        'or randomised words which dont look even slightly believable. If you are'+ 
+        'going to use a passage of Lorem Ipsum, you need to be sure there isnt anything'+ 
+        'embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the'+ 
+        'Internet tend to repeat',
         date: new Date(),
       }
     ]
@@ -43,17 +89,31 @@ users = [
     password: 'abc',
     inbox: [
       {
-        from: 'sachin@gmail.com',
+        from: 'Sachin',
         subject: 'application',
-        content: 'This is a test email.',
+        to: 'Test',
+        email: 'sachin@gmail.com',
+        content: 'There are many variations of passages of Lorem Ipsum available,'+
+        'but the majority have suffered alteration in some form, by injected humour,'+ 
+        'or randomised words which dont look even slightly believable. If you are'+ 
+        'going to use a passage of Lorem Ipsum, you need to be sure there isnt anything'+ 
+        'embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the'+ 
+        'Internet tend to repeat',
         date: new Date(),
       }
     ],
     sentItems: [
       {
-        to: 'sachin@gmail.com',
+        to: 'Sachin',
         subject: 'application',
-        content: 'This is a test email.',
+        from: 'Test',
+        email: 'sachin@gmail.com',
+        content: 'There are many variations of passages of Lorem Ipsum available,'+
+        'but the majority have suffered alteration in some form, by injected humour,'+ 
+        'or randomised words which dont look even slightly believable. If you are'+ 
+        'going to use a passage of Lorem Ipsum, you need to be sure there isnt anything'+ 
+        'embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the'+ 
+        'Internet tend to repeat',
         date: new Date(),
       }
     ]
@@ -71,8 +131,8 @@ users = [
       name: value.name,
       email: value.email,
       password: value.password,
-      inbox: null,
-      sentItems: null
+      inbox: [],
+      sentItems: []
     }
     this.users.push(user);
     this.currentUser = user;
@@ -85,12 +145,35 @@ users = [
     console.log(this.currentUser);
   }
 
-  sendEmail(recipients, content, from) {
-    let length = recipients.length;
-    let i = 0;
-    for (i ; i < length; i++){
-
+  sendEmail(recipients, subject, content) {
+    const i = this.users.indexOf(this.currentUser);
+    recipients.forEach((email) => {
+    let inbox = {
+        from: this.currentUser.name,
+        email: email.email,
+        to: email.name,
+        subject: subject,
+        content: content,
+        date: new Date(),
     }
+    let sent = {
+        to: email.name,
+        from: this.currentUser.name,
+        email: email.email,
+        subject: subject,
+        content: content,
+        date: new Date(),
+    }
+    const index = this.users.indexOf(email);
+     this.users[i].sentItems.push(sent);
+     this.users[index].inbox.push(inbox);
+    //this.currentUser = this.users[currentUserIndex];
+    });
+    console.log(this.currentUser);
+    console.log(this.users);
+    this.currentUser = this.users[i];
+    this.openSnackBar('Email has been sent.', 3000);
+    this.router.navigateByUrl('inbox');
   }
 
   openSnackBar(message: string, duration:number) {

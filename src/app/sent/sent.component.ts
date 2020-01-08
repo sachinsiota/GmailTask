@@ -3,6 +3,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { DataServiceService } from '../data-service.service';
+import { ViewMailDialogComponent } from '../view-mail-dialog/view-mail-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -12,36 +14,25 @@ import { DataServiceService } from '../data-service.service';
 })
 export class SentComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  displayedColumns: string[] = ['select', 'email', 'subject', 'content', 'date'];
+  displayedColumns: string[] = ['select', 'view', 'email', 'subject', 'content', 'date'];
   dataSource = new MatTableDataSource<any>(this.dataServiceService.currentUser.sentItems);
-  selection = new SelectionModel<any>(true, []);
 
-  constructor(public dataServiceService: DataServiceService) { }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+  constructor(public dataServiceService: DataServiceService,
+    public dialog: MatDialog) { }
 
   ngOnInit(){
     this.dataSource.paginator = this.paginator;
   }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+  
+  viewMail(data): void {
+    const dialogRef = this.dialog.open(ViewMailDialogComponent, {
+      data:{
+        type: 'sent',
+        mail:  data 
+     }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
-
-  /** The label for the checkbox on the passed row */
-  // checkboxLabel(row?: PeriodicElement): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.email + 1}`;
-  // }
 
 }

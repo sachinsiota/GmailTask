@@ -3,8 +3,9 @@
     <mat-card>
         <div class="row">
           <div class="col-xl-3 col-lg-3 col-md-2">
-            <div class="logo-align">
-            <i class="fas fa-plus-circle fa-2x" routerLink="/createUser"></i>
+            <div class="logo-align" >
+              <i class="fab fa-google fa-2x" routerLink="/createUser" matTooltip="Google"></i>
+            <!-- <i class="fas fa-plus-circle fa-2x" ></i> -->
             </div>
           </div>
           <div class="col-2 dpnone"></div>
@@ -17,9 +18,9 @@
           <div class="col-xl-4 col-lg-4 col-md-5  col-3">
             <mat-card-header class="floatnone">
               <div class="createuser">
-                <i class="fas fa-plus-circle fa-2x" routerLink="/createUser"></i>
+                <i class="fas fa-plus-circle fa-2x" routerLink="/createUser" matTooltip="Create New User"></i>
               </div>
-                <div mat-button [matMenuTriggerFor]="menu" mat-card-avatar class="example-header-image">
+                <div mat-button [matMenuTriggerFor]="menu" mat-card-avatar class="example-header-image" matTooltip="User list">
                   <h3 class="dot">{{dataServiceService.currentUser.name | uppercase | slice:0:1 }}</h3>
               </div>
                 <mat-menu #menu="matMenu">
