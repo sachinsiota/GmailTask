@@ -26,11 +26,26 @@ mat-card-subtitle {
     margin-bottom: 0px;
 }
 .example-header-image {
-    background-image: url('https://images.pexels.com/photos/937481/pexels-photo-937481.jpeg?cs=srgb&dl=adult-businessman-contemporary-937481.jpg&fm=jpg');
     background-size: cover;
     margin-top: 2px;
     cursor: pointer;
 }
+
+.createuser {
+  cursor: pointer;
+  margin: 2px;
+}
+
+.dot {
+  height: 35px;
+  width: 35px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+}
+/* background-image: url('https://images.pexels.com/photos/937481/pexels-photo-937481.jpeg?cs=srgb&dl=adult-businessman-contemporary-937481.jpg&fm=jpg'); */
+
 .dpnone{display: none;}
 @media(max-width: 767px) {
     .mat-card-header .mat-card-title, mat-card-subtitle {

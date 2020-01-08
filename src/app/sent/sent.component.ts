@@ -2,18 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
+import { DataServiceService } from '../data-service.service';
 
-
-export interface PeriodicElement {
-  email: string;
-  subject: string;
-  content: string;
-  date: Date;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {email: 'test@gmail.com', subject: 'Hydrogen', content: "this is a test email this is a test email", date: new Date()}
-];
 
 @Component({
   selector: 'app-sent',
@@ -23,8 +13,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class SentComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['select', 'email', 'subject', 'content', 'date'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<any>(this.dataServiceService.currentUser.sentItems);
+  selection = new SelectionModel<any>(true, []);
+
+  constructor(public dataServiceService: DataServiceService) { }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -45,11 +37,11 @@ export class SentComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.email + 1}`;
-  }
+  // checkboxLabel(row?: PeriodicElement): string {
+  //   if (!row) {
+  //     return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+  //   }
+  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.email + 1}`;
+  // }
 
 }

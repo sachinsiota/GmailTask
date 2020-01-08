@@ -16,6 +16,17 @@
             <div class="col-lg-12 p-0 message-box-input">
                 <form>
                       <div class="form-group">
+                        <!-- <mat-chip-list #chipList aria-label="Unit selection">
+  <mat-chip *ngFor="let unit of units" [selectable]="selectable" [removable]="removable"
+    (removed)="remove(unit)">
+    <span>{{unit.unitNumber | titlecase}}</span>
+    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+  </mat-chip>
+  <input placeholder="Select Unit Numbers" #unitInput formControlname="unitCtrl"
+    [matAutocomplete]="auto" [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+    (matChipInputTokenEnd)="add($event)">
+</mat-chip-list> -->
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="To">
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Subject">
                           <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>

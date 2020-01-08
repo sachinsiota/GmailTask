@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataServiceService } from '../data-service.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
@@ -8,10 +9,11 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 })
 export class CreateUserComponent implements OnInit {
   createUserForm: FormGroup;
-  constructor() { }
+  constructor(public dataServiceService: DataServiceService) { }
 
   ngOnInit() {
     this.createUserForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
     });
@@ -20,6 +22,7 @@ export class CreateUserComponent implements OnInit {
   submit() {
     if (this.createUserForm.valid) {
       console.log(this.createUserForm);
+      this.dataServiceService.createNewUser(this.createUserForm.value);
     }
   }
 

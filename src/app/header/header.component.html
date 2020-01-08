@@ -4,7 +4,7 @@
         <div class="row">
           <div class="col-xl-3 col-lg-3 col-md-2">
             <div class="logo-align">
-            <i class="fa fa-google" aria-hidden="true"></i>
+            <i class="fas fa-plus-circle fa-2x" routerLink="/createUser"></i>
             </div>
           </div>
           <div class="col-2 dpnone"></div>
@@ -16,13 +16,16 @@
           </div>
           <div class="col-xl-4 col-lg-4 col-md-5  col-3">
             <mat-card-header class="floatnone">
-                <div mat-button [matMenuTriggerFor]="menu" mat-card-avatar class="example-header-image">
-                <!-- <i class="fa fa-user-circle example-header-image" aria-hidden="true"></i> -->
+              <div class="createuser">
+                <i class="fas fa-plus-circle fa-2x" routerLink="/createUser"></i>
               </div>
-              <mat-menu #menu="matMenu">
-              <button mat-menu-item>Item 1</button>
-              <button mat-menu-item>Item 2</button>
-              </mat-menu>
+                <div mat-button [matMenuTriggerFor]="menu" mat-card-avatar class="example-header-image">
+                  <h3 class="dot">{{dataServiceService.currentUser.name | uppercase | slice:0:1 }}</h3>
+              </div>
+                <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngFor = "let user of dataServiceService.users" (click)="switchUser(user.id)">
+                  {{user.name}}</button>
+                </mat-menu>
             </mat-card-header>
 
           </div>
