@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   constructor(public dialog: MatDialog,
-    private router: Router) { }
+    public router: Router) { }
 
   // open compose mail dialog box
   openDialog(): void {
